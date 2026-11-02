@@ -1,0 +1,14 @@
+{
+  "theme": "dark",
+  "currency": "USD",
+  "receiptWidth": "44",
+  "autosaveEnabled": "true",
+  "autosaveInterval": "30",
+  "defaultBudget": "0.00",
+  "dbBackend": "sqlite",
+  "sqlitePath": "data/records.db",
+  "mysqlHost": "127.0.0.1",
+  "mysqlPort": "3306",
+  "mysqlUser": "root",
+  "mysqlTable": "shopping_trips"
+}
