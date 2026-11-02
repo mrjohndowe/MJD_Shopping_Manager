@@ -46,31 +46,31 @@ MJD Shopping Manager is packed with features to make your shopping trips effortl
 This project leverages a hybrid architecture combining a Python backend for core logic and a Next.js/TypeScript frontend for a rich web interface.
 
 **Frontend/Web Interface:**
--   **Framework**: Next.js 16.3.6
--   **UI Library**: React 19.2.6
--   **Styling**: Tailwind CSS 4.1.17, PostCSS
--   **Icons**: Lucide-React
--   **Confetti Effects**: Canvas-Confetti
--   **Utility**: `clsx`, `tailwind-merge`
+- **Framework**: Next.js 16.3.6
+- **UI Library**: React 19.2.6
+- **Styling**: Tailwind CSS 4.1.17, PostCSS
+- **Icons**: Lucide-React
+- **Confetti Effects**: Canvas-Confetti
+- **Utility**: `clsx`, `tailwind-merge`
 
 **Backend/Python CLI:**
--   **Language**: Python 3.10+
--   **CLI Framework**: `argparse`
--   **Rich Terminal Output**: `rich` library
--   **Database**: `sqlite3` for local persistence (`records.db`, `autosave.json`, `settings.json`)
--   **Decimal Precision**: Python `decimal` module for financial calculations
+- **Language**: Python 3.10+
+- **CLI Framework**: `argparse`
+- **Rich Terminal Output**: `rich` library
+- **Database**: `sqlite3` for local persistence (`records.db`, `autosave.json`, `settings.json`)
+- **Decimal Precision**: Python `decimal` module for financial calculations
 
 **Data Storage & APIs:**
--   **Language**: TypeScript
--   **ORM**: Drizzle ORM 0.45.2
--   **Database Driver**: `better-sqlite3` 13.0.3
--   **Database**: SQLite (file-based: `data/app.db`)
--   **Environment Management**: `dotenv`
--   **Drizzle Migrations**: `drizzle-kit`
+- **Language**: TypeScript
+- **ORM**: Drizzle ORM 0.45.2
+- **Database Driver**: `better-sqlite3` 13.0.3
+- **Database**: SQLite (file-based: `data/app.db`)
+- **Environment Management**: `dotenv`
+- **Drizzle Migrations**: `drizzle-kit`
 
 **Development Tools:**
--   **Linting**: ESLint
--   **Type Checking**: TypeScript
+- **Linting**: ESLint
+- **Type Checking**: TypeScript
 
 ## 📦 Installation
 
@@ -80,10 +80,10 @@ Follow these steps to get MJD Shopping Manager up and running on your local mach
 
 Ensure you have the following installed:
 
--   **Node.js**: Version 18.x or higher (for Next.js frontend and API)
--   **npm** or **pnpm**: A package manager for Node.js. `pnpm` is used in `package.json` scripts.
--   **Python**: Version 3.10 or higher (for the Python CLI backend)
--   **Git**: For cloning the repository
+- **Node.js**: Version 18.x or higher (for Next.js frontend and API)
+- **npm** or **pnpm**: A package manager for Node.js. `pnpm` is used in `package.json` scripts.
+- **Python**: Version 3.10 or higher (for the Python CLI backend)
+- **Git**: For cloning the repository
 
 ### Clone Repository
 
@@ -138,15 +138,15 @@ pnpm dev
 
 Open your browser and navigate to `http://localhost:3000`. You will be greeted by the MJD Shopping Manager dashboard. The application is designed to be intuitive:
 
--   **Dashboard**: Get a quick overview of your budget, current grand total, remaining funds, and savings. Quickly add items or navigate to other sections.
--   **Cart & Items**: Manage all items in your active shopping list, including quantities, prices, discounts, and taxable status. Supports editing, duplicating, reordering, and clearing items.
--   **Stores & Taxes**: View and manage different store profiles and their associated itemized tax rates. Includes a sandbox calculator to test tax amounts for any given value.
--   **Receipt Studio**: Generate 5 distinct receipt styles for your current cart, which can be copied, printed, or downloaded.
--   **Lists & Catalog**: Organize multiple shopping lists and manage your reusable item catalog for frequent purchases.
--   **History & Stats**: Review past shopping trips, restore them, and view detailed spending analytics and category breakdowns.
--   **Export Center**: Export your current shopping cart in various formats (TXT, CSV, JSON, Markdown) with optional encryption.
--   **Python Terminal**: A live interactive terminal to execute Python CLI commands directly from the web interface.
--   **Settings**: Configure application preferences like themes, currency, and database options.
+- **Dashboard**: Get a quick overview of your budget, current grand total, remaining funds, and savings. Quickly add items or navigate to other sections.
+- **Cart & Items**: Manage all items in your active shopping list, including quantities, prices, discounts, and taxable status. Supports editing, duplicating, reordering, and clearing items.
+- **Stores & Taxes**: View and manage different store profiles and their associated itemized tax rates. Includes a sandbox calculator to test tax amounts for any given value.
+- **Receipt Studio**: Generate 5 distinct receipt styles for your current cart, which can be copied, printed, or downloaded.
+- **Lists & Catalog**: Organize multiple shopping lists and manage your reusable item catalog for frequent purchases.
+- **History & Stats**: Review past shopping trips, restore them, and view detailed spending analytics and category breakdowns.
+- **Export Center**: Export your current shopping cart in various formats (TXT, CSV, JSON, Markdown) with optional encryption.
+- **Python Terminal**: A live interactive terminal to execute Python CLI commands directly from the web interface.
+- **Settings**: Configure application preferences like themes, currency, and database options.
 
 ### Python CLI
 
@@ -166,32 +166,32 @@ This will launch the full interactive terminal application with a dashboard, all
 
 **CLI Command Examples:**
 
--   **Run Demo Cart with Pueblo, CO Taxes**: Automatically populates a sample shopping cart and displays the dashboard.
+- **Run Demo Cart with Pueblo, CO Taxes**: Automatically populates a sample shopping cart and displays the dashboard.
     ```bash
     python main.py --demo
     ```
 
--   **Calculate Sales Tax for an Amount**: Calculates the itemized sales tax for a given dollar amount in Pueblo, CO.
+- **Calculate Sales Tax for an Amount**: Calculates the itemized sales tax for a given dollar amount in Pueblo, CO.
     ```bash
     python main.py --tax-calc 100.00
     ```
 
--   **Render a Specific Receipt Style**: Outputs a formatted receipt to the terminal. Available styles: `standard`, `store`, `detailed`, `budget`, `thermal`.
+- **Render a Specific Receipt Style**: Outputs a formatted receipt to the terminal. Available styles: `standard`, `store`, `detailed`, `budget`, `thermal`.
     ```bash
     python main.py --receipt thermal
     ```
 
--   **Output Current Cart Summary (JSON)**:
+- **Output Current Cart Summary (JSON)**:
     ```bash
     python main.py --summary
     ```
 
--   **Display Aggregated Spending Statistics**:
+- **Display Aggregated Spending Statistics**:
     ```bash
     python main.py --stats
     ```
 
--   **Launch First-Time Setup Wizard** (if not already completed):
+- **Launch First-Time Setup Wizard** (if not already completed):
     ```bash
     python main.py --setup
     ```
@@ -206,27 +206,27 @@ python runSystem.py
 
 The repository is organized into distinct modules for clarity and maintainability:
 
--   `config/`: Constants and shared configuration values.
--   `data/`: SQLite database files (`app.db`, `records.db`), `autosave.json`, and `settings.json`.
--   `drizzle/`: Drizzle ORM migration files for the Next.js API database.
--   `exports/`: Python module for exporting shopping cart data to various formats (TXT, CSV, JSON, Markdown).
--   `history/`: Python module for managing and storing completed shopping trips.
--   `receipts/`: Python module for generating different styled receipts.
--   `settings/`: Python module for application-wide settings management.
--   `shopping/`: Core Python business logic for `ShoppingItem`, `ShoppingCart`, and `ShoppingApp`.
--   `storage/`: Python module for handling data persistence (SQLite, JSON for autosave/settings) and managers for stores, addresses, clients, and items.
--   `statistics/`: Python module for calculating shopping analytics.
--   `taxes/`: Python module for precise sales tax calculations.
--   `themes/`: Python module for managing UI themes and color palettes for the terminal.
--   `ui/`: Python modules (`dialogs.py`, `screens.py`, `widgets.py`) for rendering the interactive terminal UI using `rich`.
--   `src/app/api/`: Next.js API routes (TypeScript) for all core functionalities, interacting with the SQLite database via Drizzle ORM.
--   `src/components/`: React components for the web-based GUI.
--   `src/db/`: TypeScript code for Drizzle ORM database connection and schema definition.
--   `src/lib/`: Shared utility functions, including Web Audio API sound effects.
--   `main.py`: Main entry point for the Python CLI application.
--   `runSystem.py`: Python script for bootstrapping the Python CLI application.
--   `package.json`: Node.js project configuration and scripts for frontend/API development.
--   `tsconfig.json`: TypeScript compiler configuration.
+- `config/`: Constants and shared configuration values.
+- `data/`: SQLite database files (`app.db`, `records.db`), `autosave.json`, and `settings.json`.
+- `drizzle/`: Drizzle ORM migration files for the Next.js API database.
+- `exports/`: Python module for exporting shopping cart data to various formats (TXT, CSV, JSON, Markdown).
+- `history/`: Python module for managing and storing completed shopping trips.
+- `receipts/`: Python module for generating different styled receipts.
+- `settings/`: Python module for application-wide settings management.
+- `shopping/`: Core Python business logic for `ShoppingItem`, `ShoppingCart`, and `ShoppingApp`.
+- `storage/`: Python module for handling data persistence (SQLite, JSON for autosave/settings) and managers for stores, addresses, clients, and items.
+- `statistics/`: Python module for calculating shopping analytics.
+- `taxes/`: Python module for precise sales tax calculations.
+- `themes/`: Python module for managing UI themes and color palettes for the terminal.
+- `ui/`: Python modules (`dialogs.py`, `screens.py`, `widgets.py`) for rendering the interactive terminal UI using `rich`.
+- `src/app/api/`: Next.js API routes (TypeScript) for all core functionalities, interacting with the SQLite database via Drizzle ORM.
+- `src/components/`: React components for the web-based GUI.
+- `src/db/`: TypeScript code for Drizzle ORM database connection and schema definition.
+- `src/lib/`: Shared utility functions, including Web Audio API sound effects.
+- `main.py`: Main entry point for the Python CLI application.
+- `runSystem.py`: Python script for bootstrapping the Python CLI application.
+- `package.json`: Node.js project configuration and scripts for frontend/API development.
+- `tsconfig.json`: TypeScript compiler configuration.
 
 ## 🌐 API Reference
 
@@ -266,7 +266,7 @@ This project is currently without a specified license.
 
 ## 🔗 Important Links
 
--   **GitHub Repository**: [https://github.com/mrjohndowe/MJD_Shopping_Manager](https://github.com/mrjohndowe/MJD_Shopping_Manager)
+- **GitHub Repository**: [https://github.com/mrjohndowe/MJD_Shopping_Manager](https://github.com/mrjohndowe/MJD_Shopping_Manager)
 
 ## ©️ Footer
 
@@ -278,6 +278,9 @@ Found this project helpful? Give it a ⭐️ star, 🍴 fork it, or open an 🐛
 
 Contact: mrjohndowe@example.com
 
+
+---
+**<p align="center">Generated by [ReadmeCodeGen](https://www.readmecodegen.com/)</p>**
 
 ---
 **<p align="center">Generated by [ReadmeCodeGen](https://www.readmecodegen.com/)</p>**
