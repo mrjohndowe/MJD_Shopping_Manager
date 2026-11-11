@@ -23,6 +23,27 @@ interface HistoryStatsViewProps {
   onNavigateTab: (tab: string) => void;
 }
 
+function CashPayoutLink({ id, total }: { id: number; total: string }) {
+  const amount = Number(total);
+  if (!Number.isSafeInteger(id) || id <= 0 || !Number.isFinite(amount) || amount <= 0 || amount >= 1e9) return null;
+
+  let url: URL;
+  try {
+    url = new URL(process.env.NEXT_PUBLIC_MONEY_COUNTER_URL || "http://127.0.0.1:8000/");
+  } catch {
+    return null;
+  }
+  if (url.protocol !== "http:" && url.protocol !== "https:") return null;
+  url.searchParams.set("shopping_trip", String(id));
+  url.searchParams.set("amount", amount.toFixed(2));
+  return (
+    <a href={url.href} target="_blank" rel="noopener noreferrer"
+      className="rounded px-2 py-1 text-xs font-semibold text-emerald-400 hover:bg-slate-700">
+      Record cash payout
+    </a>
+  );
+}
+
 export const HistoryStatsView: React.FC<HistoryStatsViewProps> = ({
   onRefreshCart,
   onNavigateTab,
@@ -234,6 +255,7 @@ export const HistoryStatsView: React.FC<HistoryStatsViewProps> = ({
                     <span className="text-xs text-slate-500 block">Total Paid</span>
                     <span className="text-base font-black text-cyan-400">${Number(trip.grandTotal).toFixed(2)}</span>
                   </div>
+                  <CashPayoutLink id={trip.id} total={trip.grandTotal} />
                   <button
                     onClick={() => setSelectedTrip(trip)}
                     className="flex items-center gap-1 rounded-lg border border-slate-700 bg-slate-800 px-2.5 py-1 text-xs font-semibold text-slate-300 hover:text-white"
