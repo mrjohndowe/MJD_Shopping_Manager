@@ -14,6 +14,10 @@ import {
 } from "lucide-react";
 import { soundFX } from "@/lib/audio";
 
+const subwayEnrollmentPrompt = "Not a Sub Club member? Scan the code\nbelow to enroll today!";
+const subwayEnrollmentUrl = "https://subway.app.link/eW4xWHIz4Wb";
+const subwayQrPath = "/subway-enrollment-qr.png";
+
 interface ReceiptsViewProps {
   summary: any;
   items: any[];
@@ -56,14 +60,19 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
     fetchReceipt(selectedStyle, receiptWidth);
   }, [selectedStyle, receiptWidth, items, currentStore]);
 
+  const isSubway = selectedStyle === "subway";
+  const textReceipt = isSubway
+    ? `${subwayEnrollmentPrompt}\n${subwayEnrollmentUrl}\n\n${receiptContent}`
+    : receiptContent;
+
   const handleCopy = () => {
     soundFX.playClick();
-    navigator.clipboard.writeText(receiptContent);
+    navigator.clipboard.writeText(textReceipt);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const handlePrint = () => {
+  const handlePrint = async () => {
     soundFX.playClick();
     const printWindow = window.open("", "_blank");
     if (!printWindow) return;
@@ -73,25 +82,49 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
           <title>MJD Shopping Manager - Receipt</title>
           <style>
             body {
+              margin: 0;
               font-family: 'Courier New', Courier, monospace;
               padding: 20px;
+            }
+            main { width: max-content; }
+            pre, p {
+              margin: 0;
+              font: inherit;
               white-space: pre;
               font-size: 13px;
               line-height: 1.3;
             }
+            header { text-align: center; margin-bottom: 2em; }
+            img { display: block; width: 100px; height: 100px; margin: 0 auto; }
           </style>
         </head>
-        <body>${receiptContent}</body>
+        <body><main><pre></pre></main></body>
       </html>
     `);
     printWindow.document.close();
+    const printDocument = printWindow.document;
+    const receipt = printDocument.querySelector("main")!;
+    receipt.querySelector("pre")!.textContent = receiptContent;
+    if (isSubway) {
+      const header = printDocument.createElement("header");
+      const prompt = printDocument.createElement("p");
+      prompt.textContent = subwayEnrollmentPrompt;
+      const qr = printDocument.createElement("img");
+      qr.alt = "Sub Club enrollment QR code";
+      qr.src = new URL(subwayQrPath, window.location.href).href;
+      header.append(prompt, qr);
+      receipt.prepend(header);
+      await qr.decode().catch(() => {
+        qr.replaceWith(printDocument.createTextNode(subwayEnrollmentUrl));
+      });
+    }
     printWindow.focus();
     printWindow.print();
   };
 
   const handleDownload = () => {
     soundFX.playClick();
-    const blob = new Blob([receiptContent], { type: "text/plain" });
+    const blob = new Blob([textReceipt], { type: "text/plain" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
     a.href = url;
@@ -224,7 +257,14 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
 
             {/* Monospace Paper Container */}
             <div className="relative rounded-xl border border-slate-800 bg-slate-900/90 p-5 font-mono text-xs text-slate-200 overflow-x-auto">
-              <pre className="leading-relaxed whitespace-pre font-mono select-all">
+              {isSubway && receiptContent && (
+                <div className="w-fit min-w-full bg-white px-2 pt-4 text-center text-black">
+                  <p className="whitespace-pre leading-tight">{subwayEnrollmentPrompt}</p>
+                  <img src={subwayQrPath} alt="Sub Club enrollment QR code" width={100} height={100}
+                    className="mx-auto block mb-6" />
+                </div>
+              )}
+              <pre className={`leading-relaxed whitespace-pre font-mono select-all ${isSubway ? "w-fit min-w-full bg-white px-2 pb-4 text-black" : ""}`}>
                 {receiptContent || "Generating receipt..."}
               </pre>
             </div>
