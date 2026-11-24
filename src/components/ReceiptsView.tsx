@@ -106,6 +106,7 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
     { id: "detailed", label: "3. Detailed Audit", desc: "Categorized by department with unit prices", icon: Sliders },
     { id: "budget_summary", label: "4. Budget Summary", desc: "Spending allocation, visual bar & surplus", icon: PieChart },
     { id: "thermal_receipt", label: "5. Thermal Slip", desc: "Classic 38-col POS paper ticket with barcode", icon: Sparkles },
+    { id: "subway", label: "6. Subway", desc: "Itemized counter receipt with a sales tax summary", icon: Sparkles },
   ];
 
   return (
@@ -118,7 +119,7 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
             Receipt Studio & Visualizer
           </h2>
           <p className="text-xs text-slate-400 mt-0.5">
-            Render and print your active cart into 5 distinct commercial receipt formats.
+            Render and print your active cart in your preferred receipt format.
           </p>
         </div>
 
@@ -216,7 +217,7 @@ export const ReceiptsView: React.FC<ReceiptsViewProps> = ({
                 <div className="h-2.5 w-2.5 rounded-full bg-rose-500" />
                 <div className="h-2.5 w-2.5 rounded-full bg-amber-500" />
                 <div className="h-2.5 w-2.5 rounded-full bg-emerald-500" />
-                <span className="text-xs font-mono text-slate-400 ml-2">Receipt Output • {selectedStyle}</span>
+                <span className="text-xs font-mono text-slate-400 ml-2">Receipt Output â€¢ {selectedStyle}</span>
               </div>
               <span className="text-[11px] font-mono text-slate-500">Pueblo CO Taxes</span>
             </div>
