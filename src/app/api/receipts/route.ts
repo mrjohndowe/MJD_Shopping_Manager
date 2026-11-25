@@ -189,6 +189,81 @@ export async function POST(req: Request) {
       lines.push("*".repeat(receiptWidth));
       receiptContent = lines.join("\n");
 
+    } else if (style === "subway") {
+      const location = [store?.city, store?.state].filter(Boolean).join(", ");
+      const locality = [location, store?.zipCode].filter(Boolean).join(" ");
+      const dateTime = new Date().toLocaleString("en-US", {
+        month: "2-digit",
+        day: "2-digit",
+        year: "numeric",
+        hour: "numeric",
+        minute: "2-digit",
+        second: "2-digit",
+      });
+      const taxRate = Number(((stateRate + countyRate + cityRate + specialRate) * 100).toFixed(2));
+      const storeHeader = [store?.name || "Subway", store?.phone && `Phone ${store.phone}`]
+        .filter(Boolean).join(" ");
+      const lines = [
+        centerText(storeHeader, receiptWidth).trimEnd(),
+        ...[store?.streetAddress, locality].filter(Boolean)
+          .map((line) => centerText(line!, receiptWidth).trimEnd()),
+        centerText(`Served by:        ${dateTime.replace(",", "")}`, receiptWidth).trimEnd(),
+        centerText("Term ID-Trans#", receiptWidth).trimEnd(),
+        "",
+        formatLine("Qty  Size Item", "Price", receiptWidth),
+        formatLine("---  ---- ----", "-----", receiptWidth),
+      ];
+      for (const item of processedItems) {
+        const sizeMatch = item.name.match(/^(\d+)(?:-inch|")\s+(.+)$/i);
+        const size = sizeMatch ? `${sizeMatch[1]}"` : "";
+        const itemName = sizeMatch?.[2] ?? item.name;
+        const prefix = `${String(item.qty).padStart(3)}  ${size.padEnd(4)} `;
+        const price = item.netTotal.toFixed(2);
+        const nameWidth = Math.max(1, receiptWidth - prefix.length - price.length - 1);
+        lines.push(formatLine(prefix + itemName.slice(0, nameWidth), price, receiptWidth));
+        const continuationWidth = Math.max(1, receiptWidth - prefix.length);
+        for (let offset = nameWidth; offset < itemName.length; offset += continuationWidth) {
+          lines.push(" ".repeat(prefix.length) + itemName.slice(offset, offset + continuationWidth));
+        }
+      }
+      lines.push(
+        "",
+        formatLine("Sub Total (excl tax)", subtotal.toFixed(2), receiptWidth),
+        formatLine(`General Sales Tax (${taxRate}%)`, totalTax.toFixed(2), receiptWidth),
+        formatLine("Total", grandTotal.toFixed(2), receiptWidth),
+        "Credit Card",
+        ...("Tips placed on credit cards are collected in a tip pool and then are distributed to employees based off company policy."
+          .match(new RegExp(`.{1,${receiptWidth}}(?: |$)`, "g")) ?? []
+        ).map((line) => line.trim()),
+        centerText("******** PURCHASE ********", receiptWidth).trimEnd(),
+        "",
+        formatLine("Subtotal:", `$${grandTotal.toFixed(2)}`, receiptWidth),
+        "Tip:",
+        formatLine("Total:", `$${grandTotal.toFixed(2)}`, receiptWidth),
+        "",
+        "Card Type:",
+        "Card Entry:",
+        "Acct #:",
+        "Approval Code:",
+        "Trans Id:",
+        "",
+        centerText("******** EMV PURCHASE ********", receiptWidth).trimEnd(),
+        "App Label:",
+        "Mode:",
+        "AID:",
+        "TVR:",
+        "IAD:",
+        "TSI:",
+        "ARC:",
+        "AC:",
+        "",
+        "-".repeat(receiptWidth),
+        centerText("CUSTOMER COPY", receiptWidth).trimEnd(),
+        "",
+        "Host Order ID:",
+      );
+      receiptContent = lines.join("\n");
+
     } else if (style === "detailed") {
       const lines = [
         "#".repeat(receiptWidth),
